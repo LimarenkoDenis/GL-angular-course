@@ -2,19 +2,15 @@
   {{item.value}} {{item.key}}
 </div>
 
-
+TOTAL PRICE OF ALL PRODUCTS {{ totalCount$ | async }}
 <input type="text" (input)="changeText($event)">
-<mat-card class="example-card" *ngFor="let item of products | async | filter: textSearch; index as i; first as isFirst; even as myEven"
+<mat-card class="example-card" *ngFor="let item of products$ | async | filter: textSearch; index as i; first as isFirst; even as myEven"
   [ngClass]="{'first': myEven}" [ngStyle]="{'background-color': myEven ? 'green' : 'yellow'}">
-  <pre>
-  {{ item | json}}
-</pre>
-  <mat-card-header *ngIf="myEven; else elseBlock">
+  <mat-card-header>
     <div mat-card-avatar class="example-header-image"></div>
     <mat-card-title>{{i}} {{item.title}}</mat-card-title>
     <mat-card-subtitle>Dog Breed</mat-card-subtitle>
   </mat-card-header>
-  <ng-template #elseBlock>...</ng-template>
   <img mat-card-image [src]="item.photo" alt="Photo of a Shiba Inu">
   <mat-card-content>
     <p>
@@ -25,15 +21,5 @@
     <span>{{date | date: 'MMM: y dd - dd'}}</span>
     <button mat-button>LIKE</button>
     <button mat-button>SHARE</button>
-
-
-    <!--output '003.14'-->
-    <p>pi (3.1-5): {{pi | number:'3.1-5'}}</p>
-
-    <!--output '003.14000'-->
-    <p>pi (3.5-5): {{pi | number:'3.5-5'}}</p>
-
-    <!--output '-3' / unlike '-2' by Math.round()-->
-    <p>-2.5 (1.0-0): {{-2.5 | number:'1.0-0'}}</p>
   </mat-card-actions>
 </mat-card>

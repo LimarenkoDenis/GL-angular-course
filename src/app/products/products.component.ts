@@ -1,14 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { of } from 'rxjs';
+import { IProduct } from './../interfaces/product.interface';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { of, Observable, Subscription } from 'rxjs';
+import { scan, concatAll} from 'rxjs/operators';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent implements OnInit, OnDestroy {
+  public subscription: Subscription = new Subscription();
+  public totalCount$: Observable<number>;
   public textSearch: string = '';
-
+  public products: IProduct[] = [];
   public product = {
     "id": 0,
     "title": "Cola",
@@ -21,7 +25,7 @@ export class ProductsComponent implements OnInit {
   e: number = 2.718281828459045;
 
   public date: Date = new Date();
-  public products: any = of([
+  public products$: Observable<IProduct[]> = of([
     {
       "id": 0,
       "title": "Cola",
@@ -106,10 +110,26 @@ export class ProductsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.totalCount$ = this.products$.pipe(
+      concatAll(),
+      scan((acc: number, next: IProduct) =>  acc + next.price , 0)
+    );
+
+
+    // this.subscription = this.products$.subscribe((data: IProduct[]) => {
+    //   console.log(data);
+    //   this.products = data;
+    // });
   }
 
 
   changeText(event: Event){
     this.textSearch = (event.target as any).value;
   }
+
+
+  public ngOnDestroy() {
+    this.subscription.unsubscribe()
+  }
+
 }
