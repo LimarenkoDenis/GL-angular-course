@@ -1,7 +1,10 @@
+import { ProductService } from './product.service';
+import { CartService } from './../cart/services/cart.service';
 import { IProduct } from './../interfaces/product.interface';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { of, Observable, Subscription } from 'rxjs';
 import { scan, concatAll} from 'rxjs/operators';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-products',
@@ -25,101 +28,44 @@ export class ProductsComponent implements OnInit, OnDestroy {
   e: number = 2.718281828459045;
 
   public date: Date = new Date();
-  public products$: Observable<IProduct[]> = of([
-    {
-      "id": 0,
-      "title": "Cola",
-      "description": "descr",
-      "photo": "http://thejizn.com/wp-content/uploads/2016/06/coca-cola-stash-can-12-oz-1_1.jpg",
-      "price": 12,
-      "type": "drink"
-    },
-    {
-      "id": 2,
-      "title": "Pepsi cola",
-      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam quae culpa porro ducimus!",
-      "photo": "http://thejizn.com/wp-content/uploads/2016/06/coca-cola-stash-can-12-oz-1_1.jpg",
-      "price": 11,
-      "type": "drink"
-    },
-    {
-      "id": 3,
-      "title": "Big Mac",
-      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam quae culpa porro ducimus!",
-      "photo": "https://www.mcdonalds.ua/content/dam/Ukraine/Item_Images/hero.Sdwch_BigMac.png",
-      "price": 22,
-      "type": "sandwich"
-    },
-    {
-      "id": 4,
-      "title": "Big Tasty",
-      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam quae culpa porro ducimus!",
-      "photo": "https://www.mcdonalds.ua/content/dam/Ukraine/Item_Images/hero.Sdwch_BigTasty.png",
-      "price": 45,
-      "type": "sandwich"
-    },
-    {
-      "id": 5,
-      "title": "pie",
-      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam quae culpa porro ducimus!",
-      "photo": "https://www.mcdonalds.ua/content/dam/Ukraine/Item_Images/hero.MuffinBlackberry.png",
-      "price": 10,
-      "type": "dessert"
-    },
-    {
-      "id": 6,
-      "title": "chocolate",
-      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam quae culpa porro ducimus!",
-      "photo": "http://thejizn.com/wp-content/uploads/2016/06/coca-cola-stash-can-12-oz-1_1.jpg",
-      "price": 22,
-      "type": "dessert"
-    },
-    {
-      "id": 7,
-      "title": "ice cream",
-      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam quae culpa porro ducimus!",
-      "photo": "http://thejizn.com/wp-content/uploads/2016/06/coca-cola-stash-can-12-oz-1_1.jpg",
-      "price": 45,
-      "type": "dessert"
-    },
-    {
-      "id": 8,
-      "title": "Orange juice small",
-      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam quae culpa porro ducimus!",
-      "photo": "https://www.mcdonalds.ua/content/dam/Ukraine/Item_Images/hero.JuiceOrangeSmall.png",
-      "price": 45,
-      "type": "drink"
-    },
-    {
-      "id": 9,
-      "title": "Coffee 'Late' small",
-      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam quae culpa porro ducimus!",
-      "photo": "https://www.mcdonalds.ua/content/dam/Ukraine/Item_Images/hero.CoffeeLatteSmall.png",
-      "price": 45,
-      "type": "drink"
-    },
-    {
-      "title": "Pizza product",
-      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam quae culpa porro ducimus!",
-      "photo": "https://www.mcdonalds.ua/content/dam/Ukraine/Item_Images/hero.CoffeeLatteSmall.png",
-      "price": 45,
-      "type": "drink",
-      "id": 10
-    }
-  ])
-  constructor() { }
+  public products$: Observable<IProduct[]>;
+  constructor(
+    private _cartService: CartService,
+    private _productService: ProductService,
+  ) { }
 
   ngOnInit() {
-    this.totalCount$ = this.products$.pipe(
-      concatAll(),
-      scan((acc: number, next: IProduct) =>  acc + next.price , 0)
-    );
+    // this.totalCount$ = this.products$.pipe(
+    //   concatAll(),
+    //   scan((acc: number, next: IProduct) =>  acc + next.price , 0)
+    // );
+
+    this.getProducts({ pageIndex: 0, pageSize: 2 } as PageEvent);
+
+    // this._productService.getProducts().subscribe((products: IProduct[]) => {
+    //   // ..
+    //   this.products = products;
+    // });
 
 
     // this.subscription = this.products$.subscribe((data: IProduct[]) => {
     //   console.log(data);
     //   this.products = data;
     // });
+  }
+
+
+  public getProducts(data: PageEvent) {
+    this.products$ = this._productService.getProducts(data);
+
+  }
+
+  public buy(product: IProduct): void {
+    this._cartService.addToCart(product);
+  }
+
+  public changePage(data: PageEvent): void {
+    this.getProducts(data);
   }
 
 

@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  api: 'api'
+  api: 'https://github.com/typicode/json-server'
 
 };

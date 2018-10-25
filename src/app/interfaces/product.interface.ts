@@ -6,3 +6,7 @@ export interface IProduct {
   price: number;
   type: string;
 }
+
+export interface ICart extends IProduct {
+  amount: number;
+}
