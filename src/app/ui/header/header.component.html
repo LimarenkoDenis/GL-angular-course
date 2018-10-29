@@ -1,9 +1,45 @@
-<p>
+<form [formGroup]="form" >
   header works!
+
+  <input type="text" formControlName="name">
+
+  <form formArrayName="array">
+    <div *ngFor="let item of form.controls.array.controls; index as i">
+        {{i}}
+        <input type="text" [formControlName]="i">
+        <button (click)="removeItem(i)">X</button>
+    </div>
+
+  </form>
 
   {{counter}}
 
   <button (click)="increase()">+</button>
   <button (click)="decrease()">-</button>
   <button (click)="myChange()">12</button>
-</p>
+</form>
+
+
+<form [formGroup]="myFG">
+  <form formArrayName="users">
+    <div *ngFor="let item of myFG.controls.users.controls; index as i">
+      <input type="text" [formControlName]="i">
+    </div>
+  </form>
+
+  <select formControlName="gender">
+    <option *ngFor="let item of genders">{{item}}</option>
+  </select>
+
+  <select formControlName="code">
+      <option [value]="item.id"  *ngFor="let item of codes">{{item.code}}</option>
+    </select>
+</form>
+
+
+<!-- <form [formGroup]="formArray">
+  <div *ngFor="let item of formArray.controls; index as i">
+    {{i}}
+    <input type="text" [formGroupName]="i">
+  </div>
+</form> -->

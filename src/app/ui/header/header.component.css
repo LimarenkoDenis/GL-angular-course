@@ -1,0 +1,7 @@
+.ng-invalid {
+  border: 2px solid red;
+}
+
+.ng-pending {
+  border: 1px solid yellow
+}

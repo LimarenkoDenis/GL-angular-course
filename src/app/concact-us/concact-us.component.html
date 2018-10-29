@@ -1,0 +1,28 @@
+<p>
+  concact-us works!
+  <input type="text" [formControl]="name">
+  <span *ngIf="name.errors?.minlength && name.touched">minlength</span>
+  <span *ngIf="name.errors?.required && name.touched">required</span>
+
+</p>
+
+<form [formGroup]="form" (submit)="submit(form.value)">
+  <input type="text" formControlName="name">
+  <span *ngIf="form.controls.email.errors?.required">required</span>
+  <span *ngIf="form.controls.email.errors?.email">Email</span>
+  <input type="text" formControlName="email">
+  <button (click)="submitWithBtn()" [disabled]="form.invalid || form.pending">Subbim</button>
+  <button  type="submit" [disabled]="form.invalid">Subbim with form</button>
+
+</form>
+
+<form [formGroup]="myForm" (submit)="submit(myForm.value)">
+    <input type="text" formControlName="name">
+    <span *ngIf="myForm.controls.email.errors?.required">required</span>
+    <span *ngIf="myForm.controls.email.errors?.email">Email</span>
+    <input type="text" formControlName="email">
+    <button (click)="submitWithBtn()" [disabled]="myForm.invalid || myForm.pending">Subbim</button>
+    <button  type="submit" [disabled]="myForm.invalid">Subbim with form</button>
+
+  </form>
+
