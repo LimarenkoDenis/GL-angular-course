@@ -8,6 +8,8 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConcactUsComponent } from './concact-us/concact-us.component';
+import {RouterModule} from '@angular/router';
+import { routes } from './router.module';
 
 @NgModule({
   declarations: [
@@ -20,8 +22,9 @@ import { ConcactUsComponent } from './concact-us/concact-us.component';
     BrowserAnimationsModule,
     ProductsModule,
     ReactiveFormsModule,
+    RouterModule.forRoot(routes),
     // FormsModule
-    CartModule
+    // CartModule
   ],
   providers: [],
   bootstrap: [AppComponent]

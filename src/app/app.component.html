@@ -18,8 +18,13 @@
   <input (change)="inputColor($event)" (input)="inputColor($event)">
 </div> -->
 
+<button [routerLink]="['']" [routerLinkActive]="['class1', 'class2']" [routerLinkActiveOptions]="{exact: true}">Products</button>
+<button [routerLink]="['/cart']" [routerLinkActive]="['class1', 'class2']">Cart</button>
+<button [routerLink]="['/contact-us']" [routerLinkActive]="['class1', 'class2']">Contact us</button>
+<button (click)="navigate()">Navigate</button>
 
-<app-concact-us></app-concact-us>
+<router-outlet></router-outlet>
+<!-- <app-concact-us></app-concact-us>
 <app-cart></app-cart>
-<app-products></app-products>
+<app-products></app-products> -->
 <app-footer></app-footer>

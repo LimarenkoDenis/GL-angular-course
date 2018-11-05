@@ -34,6 +34,10 @@ export class ProductService {
     return this._http.post<IProduct>(`${environment.api}/products`, product);
   }
 
+  public getProduct(id: string): Observable<any> {
+    return this._http.get<any>(`${environment.api}/products/${id}`);
+  }
+
   public updateProduct(product: Partial<IProduct>, id: string): Observable<IProduct> {
     return this._http.post<IProduct>(`${environment.api}/products/${id}`, product);
   }

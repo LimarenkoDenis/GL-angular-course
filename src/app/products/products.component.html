@@ -8,7 +8,7 @@
   [ngClass]="{'first': myEven}" [ngStyle]="{'background-color': myEven ? 'green' : 'yellow'}">
   <mat-card-header>
     <div mat-card-avatar class="example-header-image"></div>
-    <mat-card-title>{{i}} {{item.title}}</mat-card-title>
+    <mat-card-title [routerLink]="['/products', item.id]">{{i}} {{item.title}}</mat-card-title>
     <mat-card-subtitle>Dog Breed</mat-card-subtitle>
   </mat-card-header>
   <img mat-card-image [src]="item.photo" alt="Photo of a Shiba Inu">

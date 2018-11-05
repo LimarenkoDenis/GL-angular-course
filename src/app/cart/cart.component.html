@@ -3,4 +3,12 @@
 <p *ngFor="let item of cart">
   {{item.title}}
   {{item.amount}}
+
+
+
 </p>
+
+
+<button [routerLink]="['/cart']" [routerLinkActive]="['class1', 'class2']">Feedbacks</button>
+<button [routerLink]="['rating']" [routerLinkActive]="['class1', 'class2']">ratings</button>
+  <router-outlet></router-outlet>

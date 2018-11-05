@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ICart, IProduct } from 'src/app/interfaces/product.interface';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class CartService {
   private _cart: ICart[] = []
   constructor() { }

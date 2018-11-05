@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,14 @@ export class AppComponent {
   account = {
     name: 'dan'
   };
+
+  public constructor(private _router: Router){}
+
+  ngOninit() {
+
+    console.log(this._router.events);
+
+  }
 
   public gerRandom(): number {
     return 1121;
@@ -46,5 +55,9 @@ export class AppComponent {
 
   public chnageCounet(value: number) {
     this.counter = value;
+  }
+
+  public navigate(): void {
+    this._router.navigate(['/contact-us']);
   }
 }
