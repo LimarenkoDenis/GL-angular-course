@@ -1,3 +1,4 @@
+import { AddToCart } from './../actions/cart.actions';
 import { ProductService } from './product.service';
 import { CartService } from './../cart/services/cart.service';
 import { IProduct } from './../interfaces/product.interface';
@@ -5,6 +6,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { of, Observable, Subscription } from 'rxjs';
 import { scan, concatAll} from 'rxjs/operators';
 import { PageEvent } from '@angular/material/paginator';
+import { Store } from '@ngrx/store';
+import { LoadProductss } from '../actions/products.actions';
 
 @Component({
   selector: 'app-products',
@@ -12,6 +15,7 @@ import { PageEvent } from '@angular/material/paginator';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit, OnDestroy {
+  public isLoading$: Observable<boolean>;
   public subscription: Subscription = new Subscription();
   public totalCount$: Observable<number>;
   public textSearch: string = '';
@@ -30,38 +34,27 @@ export class ProductsComponent implements OnInit, OnDestroy {
   public date: Date = new Date();
   public products$: Observable<IProduct[]>;
   constructor(
+    private _store: Store<any>,
     private _cartService: CartService,
     private _productService: ProductService,
   ) { }
 
   ngOnInit() {
-    // this.totalCount$ = this.products$.pipe(
-    //   concatAll(),
-    //   scan((acc: number, next: IProduct) =>  acc + next.price , 0)
-    // );
-
+    this.isLoading$ = this._store.select('products', 'isLoading');
+    this.products$ = this._store.select('products', 'data');
     this.getProducts({ pageIndex: 0, pageSize: 2 } as PageEvent);
-
-    // this._productService.getProducts().subscribe((products: IProduct[]) => {
-    //   // ..
-    //   this.products = products;
-    // });
-
-
-    // this.subscription = this.products$.subscribe((data: IProduct[]) => {
-    //   console.log(data);
-    //   this.products = data;
-    // });
   }
 
 
   public getProducts(data: PageEvent) {
-    this.products$ = this._productService.getProducts(data);
+    this._store.dispatch(new LoadProductss(data));
+    // this.products$ = this._productService.getProducts(data);
 
   }
 
   public buy(product: IProduct): void {
-    this._cartService.addToCart(product);
+    this._store.dispatch(new AddToCart(product));
+    // this._cartService.addToCart(product);
   }
 
   public changePage(data: PageEvent): void {
