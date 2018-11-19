@@ -16,6 +16,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { ProductsEffects } from './effects/products.effects';
+import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,8 @@ import { ProductsEffects } from './effects/products.effects';
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([ProductsEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
+    StoreRouterConnectingModule.forRoot(),
+    StoreRouterConnectingModule.forRoot(),
     // FormsModule
     // CartModule
   ],

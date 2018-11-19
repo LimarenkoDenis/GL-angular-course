@@ -10,10 +10,11 @@ export interface State {
   error: null | string;
 }
 
-export const initialState: State = {
+export const initialState: any = {
   isLoading: false,
   isLoaded: false,
   data: [],
+  entitis: {},
   error: null,
 };
 
@@ -31,9 +32,11 @@ export function reducer(state = initialState, action: ProductsActions): State {
         ...state,
         isLoading: false,
         data: action.payload,
+        entitis:action.payload.reduce((acc: any, next: any) =>  ({ ...acc, ...{[next.id]:  next} }), {}) as any
       };
     }
     default:
       return state;
   }
 }
+

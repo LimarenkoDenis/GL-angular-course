@@ -3,7 +3,7 @@
 
   <input type="text" formControlName="name">
 
-  <form formArrayName="array">
+  <form formArrayName="array" #rere>
     <div *ngFor="let item of form.controls.array.controls; index as i">
         {{i}}
         <input type="text" [formControlName]="i">

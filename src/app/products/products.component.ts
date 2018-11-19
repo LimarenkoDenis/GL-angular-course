@@ -6,8 +6,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { of, Observable, Subscription } from 'rxjs';
 import { scan, concatAll} from 'rxjs/operators';
 import { PageEvent } from '@angular/material/paginator';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { LoadProductss } from '../actions/products.actions';
+import { selectFeatureCount } from '../reducers';
 
 @Component({
   selector: 'app-products',
@@ -40,8 +41,19 @@ export class ProductsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+
+    this._store.pipe(select(selectFeatureCount, { multiply: 2 })).subscribe(data => {
+      console.log(data);
+
+    });
     this.isLoading$ = this._store.select('products', 'isLoading');
+    // this.params$ = this._store.select('route', 'state', 'root', 'params');
+
     this.products$ = this._store.select('products', 'data');
+
+    // this.products$.subscribe(data => {
+    //   this.lenht = data.length
+    // })
     this.getProducts({ pageIndex: 0, pageSize: 2 } as PageEvent);
   }
 

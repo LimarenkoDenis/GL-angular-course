@@ -1,5 +1,6 @@
 
 <h1>Cart</h1>
+<h2>Total sum {{totalSum$ | async }}</h2>
 <p *ngFor="let item of cart$ | async">
   {{item.title}}
   {{item.amount}}
